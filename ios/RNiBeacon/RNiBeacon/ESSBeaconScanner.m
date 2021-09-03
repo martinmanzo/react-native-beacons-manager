@@ -72,14 +72,13 @@ static NSString *const kSeenCacheOnLostTimer = @"on_lost_timer";
                                                            queue:_beaconOperationsQueue];
   }
   dispatch_async(_beaconOperationsQueue, ^{
-    if (
-      .state != CBCentralManagerStatePoweredOn) {
+      if (self->_centralManager.state != CBCentralManagerStatePoweredOn) {
       NSLog(@"CBCentralManager state is %ld, cannot start or stop scanning",
-            (long)_centralManager.state);
-      _shouldBeScanning = YES;
+            (long)self->_centralManager.state);
+          self->_shouldBeScanning = YES;
     } else {
       NSLog(@"Starting to scan for Eddystones");
-      _eddystoneBeaconsCache = [[NSMutableDictionary alloc] init];
+        self->_eddystoneBeaconsCache = [[NSMutableDictionary alloc] init];
       NSArray *services = @[
           [CBUUID UUIDWithString:kESSEddystoneServiceID]
       ];
@@ -87,7 +86,7 @@ static NSString *const kSeenCacheOnLostTimer = @"on_lost_timer";
       // We do not want multiple discoveries of the same beacon to be coalesced into one.
       // (Unfortunately this is ignored when we are in the background.)
       NSDictionary *options = @{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES };
-      [_centralManager scanForPeripheralsWithServices:services options:options];
+        [self->_centralManager scanForPeripheralsWithServices:services options:options];
     }
   });
 }
