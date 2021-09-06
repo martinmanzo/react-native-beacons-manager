@@ -79,7 +79,6 @@ Just don't forget to activate
 #### Simple example
 
 ```js
-import { DeviceEventEmitter } from 'react-native'
 import Beacons from '@martinmanzo/react-native-beacons-manager'
 
 // Define a region which can be identifier + uuid,
@@ -99,7 +98,7 @@ Beacons.startRangingBeaconsInRegion(region);
 Beacons.startUpdatingLocation();
 
 // Listen for beacon changes
-const subscription = DeviceEventEmitter.addListener(
+Beacons.BeaconsEventEmitter.addListener(
   'beaconsDidRange',
   (data) => {
     // data.region - The current region
@@ -148,7 +147,6 @@ const subscription = DeviceEventEmitter.addListener(
 #### Simple example
 
 ```js
-import { DeviceEventEmitter } from 'react-native'
 import Beacons from '@martinmanzo/react-native-beacons-manager'
 
 // Tells the library to detect iBeacons
@@ -164,7 +162,7 @@ try {
 }
 
 // Print a log of the detected iBeacons (1 per second)
-DeviceEventEmitter.addListener('beaconsDidRange', (data) => {
+Beacons.BeaconsEventEmitter.addListener('beaconsDidRange', (data) => {
   console.log('Found beacons!', data.beacons);
 })
 ```
